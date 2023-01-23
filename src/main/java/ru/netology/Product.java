@@ -11,14 +11,18 @@ public class Product {
         this.price = price;
     }
 
-
-    public int getId() {
-        return id;
+    public boolean matches(String search) {
+        if (name.contains(search)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
-    public String getName() {
-        return name;
+    public int getId() {
+
+        return id;
     }
 
 
