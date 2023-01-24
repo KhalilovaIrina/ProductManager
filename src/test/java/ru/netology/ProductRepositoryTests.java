@@ -9,6 +9,33 @@ public class ProductRepositoryTests {
     Product book2 = new Book(3, "Dune", 1000, "Frank Herbert");
 
     @Test
+    public void shouldSave() {
+        ProductRepository repo = new ProductRepository();
+        repo.save(book1);
+        repo.save(phone1);
+        repo.save(book2);
+
+        Product[] expected = {book1, phone1, book2};
+        Product[] actual = repo.findAll();
+
+        Assertions.assertArrayEquals(expected, actual);
+
+    }
+
+    @Test
+    public void shouldSaveExeption() {
+        ProductRepository repo = new ProductRepository();
+        repo.save(book1);
+        repo.save(phone1);
+        repo.save(book2);
+
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {
+            repo.save(book2);
+        });
+
+    }
+
+    @Test
     public void shouldFindAllEmpty() {
         ProductRepository repo = new ProductRepository();
 

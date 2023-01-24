@@ -33,6 +33,4 @@ public class ProductManager {
         }
         return result;
     }
-
-
 }

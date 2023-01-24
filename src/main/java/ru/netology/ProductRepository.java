@@ -3,15 +3,6 @@ package ru.netology;
 public class ProductRepository {
     private Product[] items = new Product[0];
 
-    public void save(Product product) {
-        Product[] tmp = new Product[items.length + 1];
-        for (int i = 0; i < items.length; i++) {
-            tmp[i] = items[i];
-        }
-        tmp[tmp.length - 1] = product;
-        items = tmp;
-    }
-
     public Product[] findAll() {
         return items;
     }
@@ -25,9 +16,24 @@ public class ProductRepository {
         return null;
     }
 
+    public void save(Product product) {
+        int tmpId = product.getId();
+        if (product == findById(tmpId)) {
+            throw new AlreadyExistsException(
+                    "Объект с данным ID уже добавлен: " + tmpId
+            );
+        }
+        Product[] tmp = new Product[items.length + 1];
+        for (int i = 0; i < items.length; i++) {
+            tmp[i] = items[i];
+        }
+        tmp[tmp.length - 1] = product;
+        items = tmp;
+    }
+
     public void removeById(int id) {
-        Product x = findById(id);
-        if (x == null) {
+        Product need = findById(id);
+        if (need == null) {
             throw new NotFoundExeption("Объект с данным ID не найден: " + id);
         } else {
             Product[] tmp = new Product[items.length - 1];
@@ -37,11 +43,9 @@ public class ProductRepository {
                     tmp[copyToIndex] = item;
                     copyToIndex++;
                 }
-
             }
             items = tmp;
         }
-
     }
 
 }
