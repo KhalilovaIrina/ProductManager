@@ -16,15 +16,32 @@ public class ProductRepository {
         return items;
     }
 
-    public void removeById(int id) {
-        Product[] tmp = new Product[items.length - 1];
-        int copyToIndex = 0;
-        for (Product item : items) {
-            if (item.getId() != id) {
-                tmp[copyToIndex] = item;
-                copyToIndex++;
+    public Product findById(int id) {
+        for (Product product : findAll()) {
+            if (product.getId() == id) {
+                return product;
             }
         }
-        items = tmp;
+        return null;
     }
+
+    public void removeById(int id) {
+        Product x = findById(id);
+        if (x == null) {
+            throw new NotFoundExeption("Объект с данным ID не найден: " + id);
+        } else {
+            Product[] tmp = new Product[items.length - 1];
+            int copyToIndex = 0;
+            for (Product item : items) {
+                if (item.getId() != id) {
+                    tmp[copyToIndex] = item;
+                    copyToIndex++;
+                }
+
+            }
+            items = tmp;
+        }
+
+    }
+
 }
